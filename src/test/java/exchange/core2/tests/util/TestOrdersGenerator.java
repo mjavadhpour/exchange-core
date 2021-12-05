@@ -82,7 +82,7 @@ public final class TestOrdersGenerator {
                 final int orderBookSizeTarget = (int) (targetOrderBookOrdersTotal * distribution[i] + 0.5);
                 final int commandsNum = (i != 0) ? (int) (totalTransactionsNumber * distribution[i] + 0.5) : Math.max(quotaLeft, 1);
                 quotaLeft -= commandsNum;
-//                log.debug("{}. Generating symbol {} : commands={} orderBookSizeTarget={} (quotaLeft={})", i, spec.symbolId, commandsNum, orderBookSizeTarget, quotaLeft);
+                log.debug("{}. Generating symbol {} : commands={} orderBookSizeTarget={} (quotaLeft={})", i, spec.symbolId, commandsNum, orderBookSizeTarget, quotaLeft);
                 futures.put(spec.symbolId, CompletableFuture.supplyAsync(() -> {
                     final int[] uidsAvailableForSymbol = UserCurrencyAccountsGenerator.createUserListForSymbol(usersAccounts, spec, commandsNum);
                     final int numUsers = uidsAvailableForSymbol.length;
@@ -221,7 +221,7 @@ public final class TestOrdersGenerator {
 
             cmd.resultCode = CommandResultCode.VALID_FOR_MATCHING_ENGINE;
             cmd.symbol = session.symbol;
-            //log.debug("{}. {}", i, cmd);
+            log.debug("{}. {}", i, cmd);
 
             final CommandResultCode resultCode = IOrderBook.processCommand(orderBook, cmd);
             if (resultCode != CommandResultCode.SUCCESS) {
@@ -264,16 +264,17 @@ public final class TestOrdersGenerator {
         final int ordersNumAsk = session.orderBook.getOrdersNum(OrderAction.ASK);
         final int ordersNumBid = session.orderBook.getOrdersNum(OrderAction.BID);
 
-        // log.debug("ask={}, bif={} seq={} filledAtSeq={}", ordersNumAsk, ordersNumBid, session.seq, session.filledAtSeq);
+        log.debug("ask={}, bif={} seq={} filledAtSeq={}", ordersNumAsk, ordersNumBid, session.seq, session.filledAtSeq);
 
         // regulating OB size
         session.lastOrderBookOrdersSizeAsk = ordersNumAsk;
         session.lastOrderBookOrdersSizeBid = ordersNumBid;
-//        log.debug("ordersNum:{}", ordersNum);
+       log.debug("ordersNumAsk:{}", ordersNumAsk);
+       log.debug("ordersNumBid:{}", ordersNumBid);
 
         if (session.initialOrdersPlaced || session.avalancheIOC) {
             final L2MarketData l2MarketDataSnapshot = session.orderBook.getL2MarketDataSnapshot(Integer.MAX_VALUE);
-//                log.debug("{}", dumpOrderBook(l2MarketDataSnapshot));
+            log.debug("{}", l2MarketDataSnapshot);
 
             if (session.avalancheIOC) {
                 session.lastTotalVolumeAsk = l2MarketDataSnapshot.totalOrderBookVolumeAsk();
@@ -365,11 +366,11 @@ public final class TestOrdersGenerator {
 
         final boolean growOrders = lackOfOrders > 0;
 
-        //log.debug("{} growOrders={} requireFastFill={} lackOfOrders({})={}", session.seq, growOrders, requireFastFill, action, lackOfOrders);
+        log.debug("{} growOrders={} requireFastFill={} lackOfOrders({})={}", session.seq, growOrders, requireFastFill, action, lackOfOrders);
 
         if (session.filledAtSeq == null && !growOrders) {
             session.filledAtSeq = session.seq;
-            //log.debug("Symbol {} filled at {} (targetOb={} trans={})", session.symbol, session.seq, session.targetOrderBookOrdersHalf, session.transactionsNumber);
+            log.debug("Symbol {} filled at {} (targetOb={} trans={})", session.symbol, session.seq, session.targetOrderBookOrdersHalf, session.transactionsNumber);
         }
 
         final int q = rand.nextInt(growOrders
@@ -436,7 +437,7 @@ public final class TestOrdersGenerator {
             final int newPrice = Math.min(prevPrice + priceMoveRounded, (int) session.maxPrice);
             // todo add min limit
 
-            // log.debug("session.seq={} orderId={} size={} p={}", session.seq, orderId, session.actualOrders.size(), priceMoveRounded);
+            log.debug("session.seq={} orderId={} size={} p={}", session.seq, orderId, "LOST_VALUE", priceMoveRounded);
 
             session.counterMove++;
 
@@ -466,7 +467,7 @@ public final class TestOrdersGenerator {
             p = -p;
         }
 
-        //log.debug("p={} action={}", p, action);
+        log.debug("p={} action={}", p, action);
         final int price = (int) session.lastTradePrice + (int) p;
 
         int size = 1 + rand.nextInt(6) * rand.nextInt(6) * rand.nextInt(6);
@@ -525,7 +526,7 @@ public final class TestOrdersGenerator {
             } else {
                 session.lastTotalVolumeBid = Math.max(session.lastTotalVolumeAsk - size, 0);
             }
-//                    log.debug("huge size={} at {}", placeCmd.size, session.seq);
+            log.debug("huge size={} at {}", "LOST_VALUE", session.seq);
 
         } else if (rand.nextInt(32) == 0) {
             // IOC:FOKB = 31:1

@@ -252,18 +252,18 @@ public final class OrderBookDirectImpl implements IOrderBook {
         final long takerReserveBidPrice = takerOrder.getReserveBidPrice();
 //        final long takerOrderTimestamp = takerOrder.getTimestamp();
 
-//        log.debug("MATCHING taker: {} remainingSize={}", takerOrder, remainingSize);
+       log.debug("MATCHING taker: {} remainingSize={}", takerOrder, remainingSize);
 
         MatcherTradeEvent eventsTail = null;
 
         // iterate through all orders
         do {
 
-//            log.debug("  matching from maker order: {}", makerOrder);
+           log.debug("  matching from maker order: {}", makerOrder);
 
             // calculate exact volume can fill for this order
             final long tradeSize = Math.min(remainingSize, makerOrder.size - makerOrder.filled);
-//                log.debug("  tradeSize: {} MIN(remainingSize={}, makerOrder={})", tradeSize, remainingSize, makerOrder.size - makerOrder.filled);
+               log.debug("  tradeSize: {} MIN(remainingSize={}, makerOrder={})", tradeSize, remainingSize, makerOrder.size - makerOrder.filled);
 
             makerOrder.filled += tradeSize;
             makerOrder.parent.volume -= tradeSize;
@@ -287,7 +287,7 @@ public final class OrderBookDirectImpl implements IOrderBook {
 
             if (!makerCompleted) {
                 // maker not completed -> no unmatched volume left, can exit matching loop
-//                    log.debug("  not completed, exit");
+                log.debug("  not completed, exit");
                 break;
             }
 
@@ -301,7 +301,7 @@ public final class OrderBookDirectImpl implements IOrderBook {
                 final LongAdaptiveRadixTreeMap<Bucket> buckets = isBidAction ? askPriceBuckets : bidPriceBuckets;
                 buckets.remove(makerOrder.price);
                 objectsPool.put(ObjectsPool.DIRECT_BUCKET, makerOrder.parent);
-//                log.debug("  removed price bucket for {}", makerOrder.price);
+                log.debug("  removed price bucket for {}", makerOrder.price);
 
                 // set next price tail (if there is next price)
                 if (makerOrder.prev != null) {
@@ -321,8 +321,8 @@ public final class OrderBookDirectImpl implements IOrderBook {
             makerOrder.next = null;
         }
 
-//        log.debug("makerOrder = {}", makerOrder);
-//        log.debug("makerOrder.parent = {}", makerOrder != null ? makerOrder.parent : null);
+       log.debug("makerOrder = {}", makerOrder);
+       log.debug("makerOrder.parent = {}", makerOrder != null ? makerOrder.parent : null);
 
         // update best orders reference
         if (isBidAction) {
@@ -484,7 +484,7 @@ public final class OrderBookDirectImpl implements IOrderBook {
 
     private void insertOrder(final DirectOrder order, final Bucket freeBucket) {
 
-//        log.debug("   + insert order: {}", order);
+        log.debug("   + insert order: {}", order);
 
         final boolean isAsk = order.action == OrderAction.ASK;
         final LongAdaptiveRadixTreeMap<Bucket> buckets = isAsk ? askPriceBuckets : bidPriceBuckets;
@@ -492,7 +492,7 @@ public final class OrderBookDirectImpl implements IOrderBook {
 
         if (toBucket != null) {
             // update tail if bucket already exists
-//            log.debug(">>>> increment bucket {} from {} to {}", toBucket.tail.price, toBucket.volume, toBucket.volume +  order.size - order.filled);
+            log.debug(">>>> increment bucket {} from {} to {}", toBucket.tail.price, toBucket.volume, toBucket.volume +  order.size - order.filled);
 
             // can put bucket back to the pool (because target bucket already exists)
             if (freeBucket != null) {
@@ -587,11 +587,11 @@ public final class OrderBookDirectImpl implements IOrderBook {
         final Long2ObjectHashMap<DirectOrder> ordersInChain = new Long2ObjectHashMap<>(orderIdIndex.size(Integer.MAX_VALUE), 0.8f);
         validateChain(true, ordersInChain);
         validateChain(false, ordersInChain);
-//        log.debug("ordersInChain={}", ordersInChain);
-//        log.debug("orderIdIndex={}", orderIdIndex);
+        log.debug("ordersInChain={}", ordersInChain);
+        log.debug("orderIdIndex={}", orderIdIndex);
 
-//        log.debug("orderIdIndex.keySet()={}", orderIdIndex.keySet().toSortedArray());
-//        log.debug("ordersInChain=        {}", ordersInChain.toSortedArray());
+        log.debug("orderIdIndex.keySet()={}", "LOST_VALUE");
+        log.debug("ordersInChain=        {}", "LOST_VALUE");
         orderIdIndex.forEach((k, v) -> {
             if (ordersInChain.remove(k) != v) {
                 thrw("chained orders does not contain orderId=" + k);
@@ -616,7 +616,7 @@ public final class OrderBookDirectImpl implements IOrderBook {
             thrw("best order has not-null next reference");
         }
 
-//        log.debug("----------- validating {} --------- ", asksChain ? OrderAction.ASK : OrderAction.BID);
+        log.debug("----------- validating {} --------- ", asksChain ? OrderAction.ASK : OrderAction.BID);
 
         long lastPrice = -1;
         long expectedBucketVolume = 0;
@@ -630,7 +630,7 @@ public final class OrderBookDirectImpl implements IOrderBook {
             }
             ordersInChain.put(order.orderId, order);
 
-            //log.debug("id:{} p={} +{}", order.orderId, order.price, order.size - order.filled);
+            log.debug("id:{} p={} +{}", order.orderId, order.price, order.size - order.filled);
             expectedBucketVolume += order.size - order.filled;
             expectedBucketOrders++;
 
@@ -684,9 +684,9 @@ public final class OrderBookDirectImpl implements IOrderBook {
             thrw("last order is not a tail");
         }
 
-//        log.debug("-------- validateChain ----- asksChain={} ", asksChain);
+        log.debug("-------- validateChain ----- asksChain={} ", asksChain);
         buckets.forEach((price, bucket) -> {
-//            log.debug("Remove {} ", price);
+            log.debug("Remove {} ", price);
             if (bucketsFoundInChain.remove(price) != bucket) thrw("bucket in the price-tree not found in the chain");
         }, Integer.MAX_VALUE);
 

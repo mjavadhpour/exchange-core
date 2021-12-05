@@ -59,7 +59,7 @@ public class RandomCollectionsMerger {
                     .map(p -> Pair.create(p.getFirst(), (double) p.getFirst().estimateSize()))
                     .collect(Collectors.toList());
 
-//            log.debug("rebuild size {}", weightPairs.size());
+            log.debug("rebuild size {}", weightPairs.size());
         }
 
         return mergedResult;

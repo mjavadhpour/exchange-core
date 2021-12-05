@@ -121,7 +121,7 @@ public abstract class OrderBookBaseTest {
         long askSum = Arrays.stream(snapshot.askVolumes).sum();
         IOrderBook.processCommand(orderBook, OrderCommand.newOrder(IOC, 100000000000L, -1, MAX_PRICE, MAX_PRICE, askSum, BID));
 
-//        log.debug("{}", orderBook.getL2MarketDataSnapshot(Integer.MAX_VALUE).dumpOrderBook());
+        log.debug("{}", "LOST_VALUE");
 
         orderBook.validateInternalState();
 
@@ -129,7 +129,7 @@ public abstract class OrderBookBaseTest {
         long bidSum = Arrays.stream(snapshot.bidVolumes).sum();
         IOrderBook.processCommand(orderBook, OrderCommand.newOrder(IOC, 100000000001L, -2, 1, 0, bidSum, ASK));
 
-//        log.debug("{}", orderBook.getL2MarketDataSnapshot(Integer.MAX_VALUE).dumpOrderBook());
+        log.debug("{}", "LOST_VALUE");
 
         assertThat(orderBook.getL2MarketDataSnapshot(Integer.MAX_VALUE).askSize, is(0));
         assertThat(orderBook.getL2MarketDataSnapshot(Integer.MAX_VALUE).bidSize, is(0));
@@ -171,7 +171,7 @@ public abstract class OrderBookBaseTest {
         assertEquals(expectedState.build(), snapshot);
         orderBook.validateInternalState();
 
-        //        log.debug("{}", dumpOrderBook(snapshot));
+        log.debug("{}", "LOST_VALUE");
     }
 
     /**
@@ -268,7 +268,7 @@ public abstract class OrderBookBaseTest {
         assertThat(events.size(), is(1));
         checkEventReduce(events.get(0), 50L, 81599L, true, null);
 
-        //log.debug("{}", orderBook.getL2MarketDataSnapshot(10).dumpOrderBook());
+        log.debug("{}", "LOST_VALUE");
 
         OrderCommand cmdCancel3 = OrderCommand.cancel(3, UID_1);
         processAndValidate(cmdCancel3, SUCCESS);
@@ -323,7 +323,7 @@ public abstract class OrderBookBaseTest {
         processAndValidate(cmd, MATCHING_UNKNOWN_ORDER_ID);
 
         L2MarketData snapshot = orderBook.getL2MarketDataSnapshot(10);
-        //        log.debug("{}", dumpOrderBook(snapshot));
+        log.debug("{}", "LOST_VALUE");
 
         assertEquals(expectedState.build(), snapshot);
 
@@ -814,7 +814,7 @@ public abstract class OrderBookBaseTest {
 
         genResult.getCommands().forEach(cmd -> {
             cmd.orderId += 100; // TODO set start id
-            //log.debug("{}",  cmd);
+            log.debug("{}",  cmd);
             CommandResultCode commandResultCode = IOrderBook.processCommand(localOrderBook, cmd);
             assertThat(commandResultCode, is(SUCCESS));
             localOrderBook.validateInternalState();

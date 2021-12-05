@@ -249,9 +249,9 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
             log.info("Enabled journaling at seq = {} ({}+{})", enableJournalAfterSeq + 1, baseSeq, dSeq);
         }
 
-        boolean debug = false;
+        boolean debug = true;
 
-//        log.debug("Writing {}", cmd);
+        log.debug("Writing {}", cmd);
 
         final OrderCommandType cmdType = cmd.command;
 
@@ -341,8 +341,8 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
 
         } else if (cmdType == OrderCommandType.BINARY_DATA_COMMAND) {
 
-//            if (debug) log.debug("LOG BINARY_DATA_COMMAND {}", String.format("seq=%d f=%d word0=%X word1=%X word2=%X word3=%X word4=%X",
-//                    dSeq + baseSeq, (byte) cmd.symbol, cmd.orderId, cmd.price, cmd.reserveBidPrice, cmd.size, cmd.uid));
+           if (debug) log.debug("LOG BINARY_DATA_COMMAND {}", String.format("seq=%d f=%d word0=%X word1=%X word2=%X word3=%X word4=%X",
+                   dSeq + baseSeq, (byte) cmd.symbol, cmd.orderId, cmd.price, cmd.reserveBidPrice, cmd.size, cmd.uid));
 
             buffer.put((byte) cmd.symbol); // 1 byte (0 or -1)
             buffer.putLong(cmd.orderId); // 8 bytes word0
@@ -453,7 +453,7 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
 
         while (jr.available() != 0) {
 
-            boolean debug = false;
+            boolean debug = true;
 //            boolean debug = insideCompressedBlock;
 
             final byte cmd = jr.readByte();
@@ -469,7 +469,7 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
                 int size = jr.readInt();
                 int origSize = jr.readInt();
 
-//                log.debug("{}->{}", size, origSize);
+                log.debug("{}->{}", size, origSize);
 
                 if (size > 1000000) {
                     throw new IllegalStateException("Bad compressed block size = " + size + "(data corrupted)");
@@ -485,7 +485,7 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
                     throw new IOException("Can not read full block (only " + read + " bytes, not all " + size + " bytes) ");
                 }
 
-//                log.debug("Decoding block {}", origSize);
+                log.debug("Decoding block {}", origSize);
                 byte[] originalArray = lz4SafeDecompressor.decompress(compressedArray, origSize);
 
                 // read compressed block recursively
@@ -506,12 +506,12 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
 
                 if (seq != lastSeq.value + 1) {
                     log.warn("Sequence gap {}->{} ({})", lastSeq, seq, seq - lastSeq.value);
-//                    log.debug("timestampNs={} eventsGroup={} serviceFlags={} cmdType={}", timestampNs, eventsGroup, serviceFlags, cmdType);
+                    log.debug("timestampNs={} eventsGroup={} serviceFlags={} cmdType={}", timestampNs, eventsGroup, serviceFlags, cmdType);
                 }
 
                 lastSeq.value = seq;
 
-//                log.debug("command seq={} {}", lastSeq, cmdType);
+                log.debug("command seq={} {}", lastSeq, cmdType);
 
                 if (debug) log.debug("eventsGroup={} serviceFlags={} cmdType={}", eventsGroup, serviceFlags, cmdType);
 
@@ -648,7 +648,7 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
 
     private void flushBufferSync(final boolean forceStartNextFile, final long timestampNs) throws IOException {
 
-//        log.debug("Flushing buffer position={}", buffer.position());
+        log.debug("Flushing buffer position={}", "LOST_VALUE");
 
 //        batchSizes.add(journalWriteBuffer.position());
 //        if (batchSizes.size() == 1000) {
@@ -703,7 +703,7 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
             raf.close();
         }
         final Path fileName = resolveJournalPath(filesCounter, baseSnapshotId);
-//        log.debug("Starting new journal file: {}", fileName);
+        log.debug("Starting new journal file: {}", fileName);
 
         if (Files.exists(fileName)) {
             throw new IllegalStateException("File already exists: " + fileName);

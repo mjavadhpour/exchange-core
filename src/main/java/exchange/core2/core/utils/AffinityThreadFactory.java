@@ -27,7 +27,7 @@ public final class AffinityThreadFactory implements ThreadFactory {
     @Override
     public synchronized Thread newThread(@NotNull Runnable runnable) {
 
-        // log.info("---- Requesting thread for {}", runnable);
+        log.info("---- Requesting thread for {}", runnable);
 
         if (threadAffinityMode == ThreadAffinityMode.THREAD_AFFINITY_DISABLE) {
             return Executors.defaultThreadFactory().newThread(runnable);

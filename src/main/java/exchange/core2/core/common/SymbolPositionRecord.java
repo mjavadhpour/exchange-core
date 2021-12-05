@@ -208,7 +208,7 @@ public final class SymbolPositionRecord implements WriteBytesMarshallable, State
 
     private long closeCurrentPositionFutures(final OrderAction action, final long tradeSize, final long tradePrice) {
 
-        // log.debug("{} {} {} {} cur:{}-{} profit={}", uid, action, tradeSize, tradePrice, position, totalSize, profit);
+        log.debug("{} {} {} {} cur:{}-{} profit={}", uid, action, tradeSize, tradePrice, "LOST_VALUE", "LOST_VALUE", profit);
 
         if (direction == PositionDirection.EMPTY || direction == PositionDirection.of(action)) {
             // nothing to close
@@ -256,7 +256,7 @@ public final class SymbolPositionRecord implements WriteBytesMarshallable, State
 
     public void reset() {
 
-        // log.debug("records: {}, Pending B{} S{} total size: {}", records.size(), pendingBuySize, pendingSellSize, totalSize);
+        log.debug("records: {}, Pending B{} S{} total size: {}", "LOST_VALUE", pendingBuySize, pendingSellSize, "LOST_VALUE");
 
         pendingBuySize = 0;
         pendingSellSize = 0;

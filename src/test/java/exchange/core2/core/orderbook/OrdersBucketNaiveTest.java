@@ -220,7 +220,7 @@ public final class OrdersBucketNaiveTest {
                 expectedNumOrders++;
                 expectedVolume += i;
 
-                //log.debug("{}-{}: orderId:{}", j, i, orderId);
+                log.debug("{}-{}: orderId:{}", j, i, orderId);
 
                 bucket.validate();
             }

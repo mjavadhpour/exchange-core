@@ -73,7 +73,7 @@ public final class ExchangeApi {
     }
 
     public void submitCommand(ApiCommand cmd) {
-        //log.debug("{}", cmd);
+        log.debug("{}", cmd);
 
         if (cmd instanceof ApiMoveOrder) {
             ringBuffer.publishEvent(MOVE_ORDER_TRANSLATOR, (ApiMoveOrder) cmd);
@@ -109,7 +109,7 @@ public final class ExchangeApi {
     }
 
     public CompletableFuture<CommandResultCode> submitCommandAsync(ApiCommand cmd) {
-        //log.debug("{}", cmd);
+        log.debug("{}", cmd);
 
         if (cmd instanceof ApiMoveOrder) {
             return submitCommandAsync(MOVE_ORDER_TRANSLATOR, (ApiMoveOrder) cmd);
@@ -309,7 +309,7 @@ public final class ExchangeApi {
 
         final int totalNumMessagesToClaim = longsArrayData.length / LONGS_PER_MESSAGE;
 
-//        log.debug("longsArrayData[{}] n={}", longsArrayData.length, totalNumMessagesToClaim);
+       log.debug("longsArrayData[{}] n={}", longsArrayData.length, totalNumMessagesToClaim);
 
         // max fragment size is quarter of ring buffer
         final int batchSize = ringBuffer.getBufferSize() / 4;
@@ -345,8 +345,8 @@ public final class ExchangeApi {
         final long highSeq = ringBuffer.next(fragmentSize);
         final long lowSeq = highSeq - fragmentSize + 1;
 
-//        log.debug("  offset*longsPerMessage={} longsArrayData[{}] n={} seq={}..{} lastFragment={} fragmentSize={}",
-//                offset * LONGS_PER_MESSAGE, longsArrayData.length, fragmentSize, lowSeq, highSeq, isLastFragment, fragmentSize);
+       log.debug("  offset*longsPerMessage={} longsArrayData[{}] n={} seq={}..{} lastFragment={} fragmentSize={}",
+               offset * LONGS_PER_MESSAGE, longsArrayData.length, fragmentSize, lowSeq, highSeq, isLastFragment, fragmentSize);
 
         try {
             int ptr = offset * LONGS_PER_MESSAGE;
@@ -366,10 +366,7 @@ public final class ExchangeApi {
                 cmd.timestamp = timestamp;
                 cmd.resultCode = CommandResultCode.NEW;
 
-//                log.debug("ORIG {}", String.format("f=%d word0=%X word1=%X word2=%X word3=%X word4=%X",
-//                cmd.symbol, longArray[i], longArray[i + 1], longArray[i + 2], longArray[i + 3], longArray[i + 4]));
-
-//                log.debug("seq={} cmd.size={} data={}", seq, cmd.size, cmd.price);
+                log.debug("seq={} cmd.size={} data={}", seq, cmd.size, cmd.price);
 
                 ptr += LONGS_PER_MESSAGE;
             }
@@ -402,7 +399,7 @@ public final class ExchangeApi {
             cmdMatching.timestamp = api.timestamp;
             cmdMatching.resultCode = CommandResultCode.NEW;
 
-            //log.debug("seq={} cmd.command={} data={}", firstSeq, cmdMatching.command, cmdMatching.price);
+            log.debug("seq={} cmd.command={} data={}", firstSeq, cmdMatching.command, cmdMatching.price);
 
             // sequential command will make risk handler to create snapshot
             final OrderCommand cmdRisk = ringBuffer.get(secondSeq);
@@ -414,7 +411,7 @@ public final class ExchangeApi {
             cmdRisk.timestamp = api.timestamp;
             cmdRisk.resultCode = CommandResultCode.NEW;
 
-            //log.debug("seq={} cmd.command={} data={}", firstSeq, cmdMatching.command, cmdMatching.price);
+            log.debug("seq={} cmd.command={} data={}", firstSeq, cmdMatching.command, cmdMatching.price);
 
             // short delay to reduce probability of batching both commands together in R1
         } finally {
@@ -535,8 +532,8 @@ public final class ExchangeApi {
             cmd.uid = word4;
             cmd.timestamp = timestampNs;
             cmd.resultCode = CommandResultCode.NEW;
-//            log.debug("REPLAY {}", String.format("f=%d word0=%X word1=%X word2=%X word3=%X word4=%X", lastFlag, word0, word1, word2, word3, word4));
-//            log.debug("REPLAY seq={} cmd={}", seq, cmd);
+           log.debug("REPLAY {}", String.format("f=%d word0=%X word1=%X word2=%X word3=%X word4=%X", lastFlag, word0, word1, word2, word3, word4));
+           log.debug("REPLAY seq={} cmd={}", seq, cmd);
         }));
     }
 

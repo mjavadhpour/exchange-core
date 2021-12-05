@@ -75,7 +75,7 @@ public final class OrdersBucketNaive implements Comparable<OrdersBucketNaive>, W
      */
     public Order remove(long orderId, long uid) {
         Order order = entries.get(orderId);
-//        log.debug("removing order: {}", order);
+        log.debug("removing order: {}", order);
         if (order == null || order.uid != uid) {
             return null;
         }
@@ -97,7 +97,7 @@ public final class OrdersBucketNaive implements Comparable<OrdersBucketNaive>, W
      */
     public MatcherResult match(long volumeToCollect, IOrder activeOrder, OrderBookEventsHelper helper) {
 
-//        log.debug("---- match: {}", volumeToCollect);
+        log.debug("---- match: {}", volumeToCollect);
 
         final Iterator<Map.Entry<Long, Order>> iterator = entries.entrySet().iterator();
 
@@ -114,10 +114,10 @@ public final class OrdersBucketNaive implements Comparable<OrdersBucketNaive>, W
             final Order order = next.getValue();
 
             // calculate exact volume can fill for this order
-//            log.debug("volumeToCollect={} order: s{} f{}", volumeToCollect, order.size, order.filled);
+            log.debug("volumeToCollect={} order: s{} f{}", volumeToCollect, order.size, order.filled);
             final long v = Math.min(volumeToCollect, order.size - order.filled);
             totalMatchingVolume += v;
-//            log.debug("totalMatchingVolume={} v={}", totalMatchingVolume, v);
+            log.debug("totalMatchingVolume={} v={}", totalMatchingVolume, v);
 
             order.filled += v;
             volumeToCollect -= v;

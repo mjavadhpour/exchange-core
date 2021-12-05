@@ -109,7 +109,7 @@ public final class TestOrdersGeneratorSession {
         this.minPrice = price - priceDeviation * 5;
         this.maxPrice = price + priceDeviation * 5;
 
-        // log.debug("Symbol:{} price={} dev={} range({},{})", symbol, price, priceDeviation, minPrice, maxPrice);
+        log.debug("Symbol:{} price={} dev={} range({},{})", symbol, price, priceDeviation, minPrice, maxPrice);
 
         this.priceDirection = enableSlidingPrice ? 1 : 0;
 

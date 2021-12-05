@@ -101,7 +101,7 @@ public final class BinaryCommandsProcessor implements WriteBytesMarshallable, St
                 () -> {
                     final int bytesLength = (int) (cmd.orderId >> 32) & 0x7FFF_FFFF;
                     final int longArraySize = SerializationUtils.requiredLongArraySize(bytesLength, ExchangeApi.LONGS_PER_MESSAGE);
-//            log.debug("EXPECTED: bytesLength={} longArraySize={}", bytesLength, longArraySize);
+                    log.debug("EXPECTED: bytesLength={} longArraySize={}", bytesLength, longArraySize);
                     return new TransferRecord(longArraySize);
                 });
 
@@ -131,9 +131,9 @@ public final class BinaryCommandsProcessor implements WriteBytesMarshallable, St
 
             } else if (cmd.command == OrderCommandType.BINARY_DATA_COMMAND) {
 
-//                log.debug("Unpack {} words", record.wordsTransfered);
+                log.debug("Unpack {} words", record.wordsTransfered);
                 final BinaryDataCommand binaryDataCommand = deserializeBinaryCommand(bytesIn);
-//                log.debug("Succeed");
+                log.debug("Succeed");
                 completeMessagesHandler.accept(binaryDataCommand);
 
             } else {

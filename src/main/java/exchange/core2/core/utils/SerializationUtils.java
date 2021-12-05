@@ -49,15 +49,15 @@ public final class SerializationUtils {
         final ByteBuffer byteBuffer = ByteBuffer.allocate((int) bytes.readRemaining());
         bytes.read(byteBuffer);
         final byte[] array = byteBuffer.array();
-//        log.debug("array:{}", array);
+        log.debug("array:{}", array);
         final long[] longs = toLongsArray(array, padding);
-//        log.debug("longs:{}", longs);
+        log.debug("longs:{}", longs);
         return longs;
     }
 
     public static long[] bytesToLongArrayLz4(final LZ4Compressor lz4Compressor, final NativeBytes<Void> bytes, final int padding) {
         int originalSize = (int) bytes.readRemaining();
-//        log.debug("COMPRESS originalSize={}", originalSize);
+        log.debug("COMPRESS originalSize={}", originalSize);
 
         final ByteBuffer byteBuffer = ByteBuffer.allocate(originalSize);
 
@@ -85,7 +85,7 @@ public final class SerializationUtils {
 
         final int longLength = requiredLongArraySize(bytes.length, padding);
         long[] longArray = new long[longLength];
-        //log.debug("byte[{}]={}", bytes.length, bytes);
+        log.debug("byte[{}]={}", bytes.length, bytes);
         final ByteBuffer allocate = ByteBuffer.allocate(longLength * 8 * 2);
         final LongBuffer longBuffer = allocate.asLongBuffer();
         allocate.put(bytes);
@@ -97,7 +97,7 @@ public final class SerializationUtils {
 
         final int longLength = requiredLongArraySize(length, padding);
         long[] longArray = new long[longLength];
-        //log.debug("byte[{}]={}", bytes.length, bytes);
+        log.debug("byte[{}]={}", bytes.length, bytes);
         final ByteBuffer allocate = ByteBuffer.allocate(longLength * 8 * 2);
         final LongBuffer longBuffer = allocate.asLongBuffer();
         allocate.put(bytes, offset, length);
@@ -126,7 +126,7 @@ public final class SerializationUtils {
         final byte[] bytesArray = new byte[sizeInBytes];
         byteBuffer.get(bytesArray);
 
-        //log.debug(" section {} -> {}", section, bytes);
+        log.debug(" section {} -> {}", "LOST_VALUE", bytesArray);
 
         final Bytes<ByteBuffer> bytes = Bytes.elasticHeapByteBuffer(sizeInBytes);
         bytes.ensureCapacity(sizeInBytes);
@@ -138,7 +138,7 @@ public final class SerializationUtils {
 
     public static Wire longsLz4ToWire(long[] dataArray, int longsTransfered) {
 
-//        log.debug("long dataArray.len={} longsTransfered={}", dataArray.length, longsTransfered);
+        log.debug("long dataArray.len={} longsTransfered={}", dataArray.length, longsTransfered);
 
         final ByteBuffer byteBuffer = ByteBuffer.allocate(longsTransfered * 8);
         byteBuffer.asLongBuffer().put(dataArray, 0, longsTransfered);

@@ -474,7 +474,7 @@ public final class RiskEngine implements WriteBytesMarshallable {
         } else {
 
             if (cmd.price * spec.quoteScaleK < spec.takerFee) {
-                // log.debug("cmd.price {} * spec.quoteScaleK {} < {} spec.takerFee", cmd.price, spec.quoteScaleK, spec.takerFee);
+                log.debug("cmd.price {} * spec.quoteScaleK {} < {} spec.takerFee", cmd.price, spec.quoteScaleK, spec.takerFee);
                 // todo also check for move command
                 return CommandResultCode.RISK_ASK_PRICE_LOWER_THAN_FEE;
             }
@@ -548,8 +548,8 @@ public final class RiskEngine implements WriteBytesMarshallable {
             }
         }
 
-//        log.debug("newMargin={} <= account({})={} + free {}",
-//                newRequiredMarginForSymbol, position.currency, userProfile.accounts.get(position.currency), freeMargin);
+        log.debug("newMargin={} <= account({})={} + free {}",
+                newRequiredMarginForSymbol, position.currency, userProfile.accounts.get(position.currency), freeMargin);
 
         // check if current balance and margin can cover new required margin for symbol position
         return newRequiredMarginForSymbol <= userProfile.accounts.get(position.currency) + freeMargin;
@@ -664,7 +664,7 @@ public final class RiskEngine implements WriteBytesMarshallable {
                                                         final boolean takerSell,
                                                         final UserProfile taker) {
 
-        //log.debug("REDUCE/REJECT {} {}", cmd, ev);
+        log.debug("REDUCE/REJECT {} {}", cmd, ev);
 
         // for cancel/rejection only one party is involved
         if (takerSell) {
@@ -688,7 +688,7 @@ public final class RiskEngine implements WriteBytesMarshallable {
                                                  final CoreSymbolSpecification spec,
                                                  final UserProfile taker) {
 
-        //log.debug("TRADE EXCH SELL {}", ev);
+        log.debug("TRADE EXCH SELL {}", ev);
 
         long takerSizeForThisHandler = 0L;
         long makerSizeForThisHandler = 0L;
@@ -739,7 +739,7 @@ public final class RiskEngine implements WriteBytesMarshallable {
                                                 final CoreSymbolSpecification spec,
                                                 final UserProfile taker,
                                                 final OrderCommand cmd) {
-        //log.debug("TRADE EXCH BUY {}", ev);
+        log.debug("TRADE EXCH BUY {}", ev);
 
         long takerSizeForThisHandler = 0L;
         long makerSizeForThisHandler = 0L;

@@ -102,7 +102,7 @@ public final class UserProfileService implements WriteBytesMarshallable, StateHa
         userProfile.adjustmentsCounter = fundingTransactionId;
         userProfile.accounts.addToValue(currency, amount);
 
-        //log.debug("FUND: {}", userProfile);
+        log.debug("FUND: {}", userProfile);
         return CommandResultCode.SUCCESS;
     }
 

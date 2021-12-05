@@ -237,7 +237,7 @@ public final class MatchingEngineRouter implements WriteBytesMarshallable {
 
     private void addSymbol(final CoreSymbolSpecification spec) {
 
-//        log.debug("ME add symbolSpecification: {}", symbolSpecification);
+        log.debug("ME add symbolSpecification: {}", spec);
 
         if (spec.type != SymbolType.CURRENCY_EXCHANGE_PAIR && !cfgMarginTradingEnabled) {
             log.warn("Margin symbols are not allowed: {}", spec);

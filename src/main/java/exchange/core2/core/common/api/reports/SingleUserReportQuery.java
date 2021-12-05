@@ -71,7 +71,7 @@ public final class SingleUserReportQuery implements ReportQuery<SingleUserReport
             }
         });
 
-        //log.debug("ME{}: orders: {}", matchingEngine.getShardId(), orders);
+        log.debug("ME{}: orders: {}", matchingEngine.getShardId(), orders);
         return Optional.of(SingleUserReportResult.createFromMatchingEngine(uid, orders));
     }
 

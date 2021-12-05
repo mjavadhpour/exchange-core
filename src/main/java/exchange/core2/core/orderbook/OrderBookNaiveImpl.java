@@ -222,7 +222,7 @@ public final class OrderBookNaiveImpl implements IOrderBook {
             long filled,
             final OrderCommand triggerCmd) {
 
-//        log.info("matchInstantly: {} {}", order, matchingBuckets);
+        log.info("matchInstantly: {} {}", "LOST_VALUE", matchingBuckets);
 
         if (matchingBuckets.size() == 0) {
             return filled;
@@ -235,8 +235,8 @@ public final class OrderBookNaiveImpl implements IOrderBook {
         List<Long> emptyBuckets = new ArrayList<>();
         for (final OrdersBucketNaive bucket : matchingBuckets.values()) {
 
-//            log.debug("Matching bucket: {} ...", bucket);
-//            log.debug("... with order: {}", activeOrder);
+            log.debug("Matching bucket: {} ...", bucket);
+            log.debug("... with order: {}", activeOrder);
 
             final long sizeLeft = orderSize - filled;
 
@@ -254,8 +254,8 @@ public final class OrderBookNaiveImpl implements IOrderBook {
             }
             eventsTail = bucketMatchings.eventsChainTail;
 
-//            log.debug("Matching orders: {}", matchingOrders);
-//            log.debug("order.filled: {}", activeOrder.filled);
+            log.debug("Matching orders: {}", "LOST_VALUE");
+            log.debug("order.filled: {}", "LOST_VALUE");
 
             long price = bucket.getPrice();
 
@@ -274,8 +274,8 @@ public final class OrderBookNaiveImpl implements IOrderBook {
         // TODO can remove through iterator ??
         emptyBuckets.forEach(matchingBuckets::remove);
 
-//        log.debug("emptyBuckets: {}", emptyBuckets);
-//        log.debug("matchingRecords: {}", matchingRecords);
+        log.debug("emptyBuckets: {}", emptyBuckets);
+        log.debug("matchingRecords: {}", "LOST_VALUE");
 
         return filled;
     }

@@ -61,7 +61,7 @@ public final class UserCurrencyAccountsGenerator {
             totalAccountsQuota -= accountsToOpen;
             result.add(bitSet);
 
-//            log.debug("{}", bitSet);
+            log.debug("{}", bitSet);
 
         } while (totalAccountsQuota > 0);
 
@@ -101,7 +101,7 @@ public final class UserCurrencyAccountsGenerator {
 //                    + " numUsersToSelect=" + numUsersToSelect);
 //        }
 
-//        log.debug("sym: " + spec.symbolId + " " + spec.type + " uids:" + uids.size() + " msg=" + symbolMessagesExpected + " numUsersToSelect=" + numUsersToSelect + " c=" + c);
+        log.debug("sym: " + spec.symbolId + " " + spec.type + " uids:" + uids.size() + " msg=" + symbolMessagesExpected + " numUsersToSelect=" + numUsersToSelect + " c=" + c);
 
         return uids.stream().mapToInt(x -> x).toArray();
     }

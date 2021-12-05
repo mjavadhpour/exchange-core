@@ -45,7 +45,7 @@ public final class UserProfile implements WriteBytesMarshallable, StateHash {
     public UserStatus userStatus;
 
     public UserProfile(long uid, UserStatus userStatus) {
-        //log.debug("New {}", uid);
+        log.debug("New {}", uid);
         this.uid = uid;
         this.positions = new IntObjectHashMap<>();
         this.adjustmentsCounter = 0L;

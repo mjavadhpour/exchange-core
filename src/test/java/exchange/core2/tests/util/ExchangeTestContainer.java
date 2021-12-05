@@ -127,7 +127,7 @@ public final class ExchangeTestContainer implements AutoCloseable {
                                   final InitialStateConfiguration initStateCfg,
                                   final SerializationConfiguration serializationCfg) {
 
-        //log.debug("CREATING exchange container");
+        log.debug("CREATING exchange container");
 
         this.threadFactory = new AffinityThreadFactory(AffinityThreadFactory.ThreadAffinityMode.THREAD_AFFINITY_ENABLE_PER_PHYSICAL_CORE);
 
@@ -145,10 +145,10 @@ public final class ExchangeTestContainer implements AutoCloseable {
                 .exchangeConfiguration(exchangeConfiguration)
                 .build();
 
-        //log.debug("STARTING exchange container");
+        log.debug("STARTING exchange container");
         this.exchangeCore.startup();
 
-        //log.debug("STARTED exchange container");
+        log.debug("STARTED exchange container");
         this.api = this.exchangeCore.getApi();
     }
 
@@ -368,7 +368,7 @@ public final class ExchangeTestContainer implements AutoCloseable {
 
                 result.add(symbol);
 
-                //log.debug("{}", symbol);
+                log.debug("{}", symbol);
                 i++;
             }
         }

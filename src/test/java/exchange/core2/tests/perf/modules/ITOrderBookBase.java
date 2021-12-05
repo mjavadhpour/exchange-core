@@ -57,15 +57,15 @@ public abstract class ITOrderBookBase {
         // match all asks
         long askSum = Arrays.stream(snapshot.askVolumes).sum();
         IOrderBook.processCommand(orderBook, OrderCommand.newOrder(IOC, 100000000000L, -1, maxPrice, maxPrice, askSum, BID));
-//        log.debug("{}", dumpOrderBook(orderBook.getL2MarketDataSnapshot(100000)));
+        log.debug("{}", orderBook.getL2MarketDataSnapshot(100000));
 
         // match all bids
         long bidSum = Arrays.stream(snapshot.bidVolumes).sum();
 
-//        log.debug("Matching {} bids", bidSum);
+        log.debug("Matching {} bids", bidSum);
         IOrderBook.processCommand(orderBook, OrderCommand.newOrder(IOC, 100000000001L, -2, 1, 0, bidSum, ASK));
 
-//        log.debug("{}", dumpOrderBook(orderBook.getL2MarketDataSnapshot(100000)));
+        log.debug("{}", orderBook.getL2MarketDataSnapshot(100000));
 
         assertThat(orderBook.getL2MarketDataSnapshot(10000).askVolumes.length, is(0));
         assertThat(orderBook.getL2MarketDataSnapshot(10000).bidVolumes.length, is(0));
@@ -185,9 +185,9 @@ public abstract class ITOrderBookBase {
         }
         log.debug("time: {}ns", System.nanoTime() + baseTime);
 
-//        for (int i = iterations - 1; i >= 0; i--) {
-//            log.debug("{}", data[i]);
-//        }
+        for (int i = iterations - 1; i >= 0; i--) {
+            log.debug("{}", data[i]);
+        }
 
     }
 

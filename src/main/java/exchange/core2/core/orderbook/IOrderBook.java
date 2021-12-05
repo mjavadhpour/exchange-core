@@ -119,15 +119,6 @@ public interface IOrderBook extends WriteBytesMarshallable, StateHash {
      */
     @Override
     default int stateHash() {
-
-        // log.debug("State hash of {}", orderBook.getClass().getSimpleName());
-        // log.debug("  Ask orders stream: {}", orderBook.askOrdersStream(true).collect(Collectors.toList()));
-        // log.debug("  Ask orders hash: {}", stateHashStream(orderBook.askOrdersStream(true)));
-        // log.debug("  Bid orders stream: {}", orderBook.bidOrdersStream(true).collect(Collectors.toList()));
-        // log.debug("  Bid orders hash: {}", stateHashStream(orderBook.bidOrdersStream(true)));
-        // log.debug("  getSymbolSpec: {}", orderBook.getSymbolSpec());
-        // log.debug("  getSymbolSpec hash: {}", orderBook.getSymbolSpec().stateHash());
-
         return Objects.hash(
                 HashingUtils.stateHashStream(askOrdersStream(true)),
                 HashingUtils.stateHashStream(bidOrdersStream(true)),

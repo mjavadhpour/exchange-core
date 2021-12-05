@@ -135,7 +135,7 @@ public class ITCH50StatListener implements ITCH50Listener {
     //----------------- init? ----------
     @Override
     public void stockDirectory(ITCH50.StockDirectory itchMsg) {
-//                log.debug("{}", itchMsg);
+        log.debug("{}", itchMsg);
 
         symbolDescr.put(itchMsg.stockLocate, new StockDescr(ASCII.unpackLong(itchMsg.stock), itchMsg.etpFlag, itchMsg.etpLeverageFactor));
 
@@ -173,19 +173,19 @@ public class ITCH50StatListener implements ITCH50Listener {
 
     @Override
     public void stockTradingAction(ITCH50.StockTradingAction message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_STOCK_TRADING_ACTION, message.stockLocate);
     }
 
     @Override
     public void regSHORestriction(ITCH50.RegSHORestriction message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_REG_SHO_RESTRICTION, message.locateCode);
     }
 
     @Override
     public void marketParticipantPosition(ITCH50.MarketParticipantPosition message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_MARKET_PARTICIPANT_POSITION, message.stockLocate);
     }
     //-----------------------------------
@@ -266,22 +266,22 @@ public class ITCH50StatListener implements ITCH50Listener {
         }
 
 
-//                log.debug("{}", message);
+        log.debug("{}", message);
 //        updateStat(ITCH50.MESSAGE_TYPE_ADD_ORDER_MPID, message.stockLocate, message.price);
         updateStat(ITCH50.MESSAGE_TYPE_ADD_ORDER_MPID, message.stockLocate);
     }
 
     @Override
     public void orderExecuted(ITCH50.OrderExecuted message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_ORDER_EXECUTED, message.stockLocate);
     }
 
     @Override
     public void orderExecutedWithPrice(ITCH50.OrderExecutedWithPrice message) {
-//                if (Math.random() < 0.01) {
-//                    log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
-//                }
+        if (Math.random() < 0.01) {
+            log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
+        }
 //        updateStat(ITCH50.MESSAGE_TYPE_,message.stockLocate);
         if (message.stockLocate == 8893) {
             log.debug("ORDER_EXE_PRIC p={} orderId={} shares={}", message.executionPrice, message.orderReferenceNumber, message.executedShares);
@@ -291,37 +291,37 @@ public class ITCH50StatListener implements ITCH50Listener {
 
     @Override
     public void orderCancel(ITCH50.OrderCancel message) {
-//                log.debug("{}", message);
-//                if (Math.random() < 0.0001) {
-//                    log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
-//                }
+        log.debug("{}", message);
+        if (Math.random() < 0.0001) {
+            log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
+        }
         updateStat(ITCH50.MESSAGE_TYPE_ORDER_CANCEL, message.stockLocate);
     }
 
     @Override
     public void orderDelete(ITCH50.OrderDelete message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_ORDER_DELETE, message.stockLocate);
     }
 
     @Override
     public void orderReplace(ITCH50.OrderReplace message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_ORDER_REPLACE, message.stockLocate, message.price);
     }
 
     @Override
     public void trade(ITCH50.Trade message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
 //        updateStat(ITCH50.MESSAGE_TYPE_TRADE, message.stockLocate, message.price);
         updateStat(ITCH50.MESSAGE_TYPE_TRADE, message.stockLocate);
     }
 
     @Override
     public void crossTrade(ITCH50.CrossTrade message) {
-//                if (Math.random() < 0.01) {
-//                    log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
-//                }
+        if (Math.random() < 0.01) {
+            log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
+        }
         updateStat(ITCH50.MESSAGE_TYPE_CROSS_TRADE, message.stockLocate);
 //        updateStat(ITCH50.MESSAGE_TYPE_CROSS_TRADE, message.stockLocate, message.crossPrice);
     }
@@ -334,16 +334,16 @@ public class ITCH50StatListener implements ITCH50Listener {
 
     @Override
     public void noii(ITCH50.NOII message) {
-//                if (Math.random() < 0.001) {
-//                    log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
-//                }
+        if (Math.random() < 0.001) {
+            log.debug("{} {} {}", message, message.timestampHigh, message.timestampLow);
+        }
         updateStat(ITCH50.MESSAGE_TYPE_NOII, message.stockLocate);
 //        updateStat(ITCH50.MESSAGE_TYPE_,message.stockLocate, message.currentReferencePrice);
     }
 
     @Override
     public void rpii(ITCH50.RPII message) {
-//                log.debug("{}", message);
+        log.debug("{}", message);
         updateStat(ITCH50.MESSAGE_TYPE_RPII, message.stockLocate);
     }
 }

@@ -48,8 +48,8 @@ public final class OrderBookEventsHelper {
                                             final long bidderHoldPrice) {
         //final long takerOrderTimestamp
 
-//        log.debug("** sendTradeEvent: active id:{} matched id:{}", activeOrder.orderId, matchingOrder.orderId);
-//        log.debug("** sendTradeEvent: price:{} v:{}", price, v);
+        log.debug("** sendTradeEvent: active id:{} matched id:{}", "LOST_VALUE", "LOST_VALUE");
+        log.debug("** sendTradeEvent: price:{} v:{}", "LOST_VALUE", "LOST_VALUE");
 
         final MatcherTradeEvent event = newMatcherEvent();
 
@@ -73,7 +73,7 @@ public final class OrderBookEventsHelper {
     }
 
     public MatcherTradeEvent sendReduceEvent(final IOrder order, final long reduceSize, final boolean completed) {
-//        log.debug("Cancel ");
+        log.debug("Cancel ");
         final MatcherTradeEvent event = newMatcherEvent();
         event.eventType = MatcherEventType.REDUCE;
         event.section = 0;
@@ -93,8 +93,8 @@ public final class OrderBookEventsHelper {
 
     public void attachRejectEvent(final OrderCommand cmd, final long rejectedSize) {
 
-//        log.debug("Rejected {}", cmd.orderId);
-//        log.debug("\n{}", getL2MarketDataSnapshot(10).dumpOrderBook());
+        log.debug("Rejected {}", cmd.orderId);
+        log.debug("\n{}", "LOST_VALUE");
 
         final MatcherTradeEvent event = newMatcherEvent();
 
@@ -141,7 +141,7 @@ public final class OrderBookEventsHelper {
 
             event.nextEvent = null;
 
-//            log.debug("BIN EVENT: {}", event);
+            log.debug("BIN EVENT: {}", event);
 
             // attach in direct order
             if (firstEvent == null) {
@@ -188,7 +188,7 @@ public final class OrderBookEventsHelper {
         if (EVENTS_POOLING) {
             if (eventsChainHead == null) {
                 eventsChainHead = eventChainsSupplier.get();
-//            log.debug("UPDATED HEAD size={}", eventsChainHead == null ? 0 : eventsChainHead.getChainSize());
+                log.debug("UPDATED HEAD size={}", eventsChainHead == null ? 0 : eventsChainHead.getChainSize());
             }
             final MatcherTradeEvent res = eventsChainHead;
             eventsChainHead = eventsChainHead.nextEvent;

@@ -52,4 +52,9 @@ public class DummySerializationProcessor implements ISerializationProcessor {
     public void replayJournalFullAndThenEnableJouraling(InitialStateConfiguration initialStateConfiguration, ExchangeApi exchangeApi) {
         // do nothing
     }
+
+    @Override
+    public boolean checkSnapshotExists(long snapshotId, SerializedModuleType type, int instanceId) {
+        return false;
+    }
 }

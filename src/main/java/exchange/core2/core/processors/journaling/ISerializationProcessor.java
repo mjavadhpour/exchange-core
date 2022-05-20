@@ -105,12 +105,51 @@ public interface ISerializationProcessor {
 
     void replayJournalFullAndThenEnableJouraling(InitialStateConfiguration initialStateConfiguration, ExchangeApi exchangeApi);
 
+    /**
+     * Check if underlying snapshot file exists
+     *
+     * @param snapshotId - unique snapshot id
+     * @param type       - module (risk engine or matching engine)
+     * @param instanceId - module instance number (starting from 0 for each module type)
+     * @return Path the resolved snapshot path
+     */
+    boolean checkSnapshotExists(long snapshotId, SerializedModuleType type, int instanceId);
+
     @AllArgsConstructor
     enum SerializedModuleType {
         RISK_ENGINE("RE"),
         MATCHING_ENGINE_ROUTER("ME");
 
         final String code;
+    }
+
+    static boolean canLoadFromSnapshot(final ISerializationProcessor serializationProcessor,
+                                       final InitialStateConfiguration initStateCfg,
+                                       final int shardId,
+                                       final ISerializationProcessor.SerializedModuleType module) {
+
+        if (initStateCfg.fromSnapshot()) {
+
+            final boolean snapshotExists = serializationProcessor.checkSnapshotExists(
+                    initStateCfg.getSnapshotId(),
+                    module,
+                    shardId);
+
+            if (snapshotExists) {
+
+                // snapshot requested and exists
+                return true;
+
+            } else {
+
+                // expected to throw if file not found
+                if (initStateCfg.isThrowIfSnapshotNotFound()) {
+                    throw new IllegalStateException("Snapshot " + initStateCfg.getSnapshotId() + " shardId=" + shardId + " not found for " + module);
+                }
+            }
+        }
+
+        return false;
     }
 
 }

@@ -462,15 +462,22 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
 
             if (cmd == OrderCommandType.RESERVED_COMPRESSED.getCode()) {
 
-                if (insideCompressedBlock) throw new IllegalStateException("Recursive compression block (data corrupted)");
+                if (insideCompressedBlock) {
+                    throw new IllegalStateException("Recursive compression block (data corrupted)");
+                }
 
                 int size = jr.readInt();
                 int origSize = jr.readInt();
 
 //                log.debug("{}->{}", size, origSize);
 
-                if (size > 1000000) throw new IllegalStateException("Bad compressed block size = " + size + "(data corrupted)");
-                if (origSize > 1000000) throw new IllegalStateException("Bad original block size = " + size + "(data corrupted)");
+                if (size > 1000000) {
+                    throw new IllegalStateException("Bad compressed block size = " + size + "(data corrupted)");
+                }
+
+                if (origSize > 1000000) {
+                    throw new IllegalStateException("Bad original block size = " + size + "(data corrupted)");
+                }
 
                 byte[] compressedArray = new byte[size];
                 int read = jr.read(compressedArray);
@@ -629,6 +636,14 @@ public final class DiskSerializationProcessor implements ISerializationProcessor
     public void replayJournalFullAndThenEnableJouraling(InitialStateConfiguration initialStateConfiguration, ExchangeApi exchangeApi) {
         long seq = replayJournalFull(initialStateConfiguration, exchangeApi);
         enableJournaling(seq, exchangeApi);
+    }
+
+    @Override
+    public boolean checkSnapshotExists(long snapshotId, SerializedModuleType type, int instanceId) {
+        final Path path = resolveSnapshotPath(snapshotId, type, instanceId);
+        final boolean exists = Files.exists(path);
+        log.info("Checking snapshot file {} exists:{}", path, exists);
+        return exists;
     }
 
     private void flushBufferSync(final boolean forceStartNextFile, final long timestampNs) throws IOException {

@@ -10,3 +10,10 @@ delombok/
 
 # dumps #
 dumps/*.ec*
+
+### VsCode IDE ###
+.DS_Store
+.classpath
+.factorypath
+.project
+.settings/*

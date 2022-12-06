@@ -1,0 +1,27 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/alpine
+{
+	"name": "Exchange Core",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": ".."
+	},
+	"settings": {
+		"java.configuration.runtimes": [
+			{
+			  "name": "JavaSE-1.8",
+			  "path": "/opt/java/openjdk",
+			  "default": true
+			}
+		],
+		"files.exclude": {
+			"**/.classpath": true,
+			"**/.project": true,
+			"**/.settings": true,
+			"**/.factorypath": true
+		}
+	},
+	"extensions": [
+		"vscjava.vscode-java-pack"
+	]
+}

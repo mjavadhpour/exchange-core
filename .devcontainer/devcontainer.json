@@ -14,7 +14,6 @@
 			  "default": true
 			}
 		],
-		"java.dependency.packagePresentation": "hierarchical",
 		"files.exclude": {
 			"**/.classpath": true,
 			"**/.project": true,
